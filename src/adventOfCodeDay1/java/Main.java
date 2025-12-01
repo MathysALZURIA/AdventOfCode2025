@@ -48,25 +48,19 @@ public class Main {
         // Algorithm Part 2
         for (String[] step : instructions) {
             System.out.println("Dial : " + dial + " - Instruction : " + Arrays.toString(step));
+            int value = Integer.parseInt(step[1]);
+            int turns = value / 100;
+            int rest = value % 100;
+            int newDial = dial;
+            counterOf0PassingBy += turns;
             if (step[0].equals("L")) {
-                int value = Integer.parseInt(step[1]);
-                while ((dial - value) < 0) {
-                    System.out.println("Before passing by 0: dial = " + dial + ", value = " + value);
-                    value -= dial;
-                    dial = 100;
-                    counterOf0PassingBy++;
-                    System.out.println("After passing by 0: dial = " + dial + ", value = " + value);
-                }
+                newDial = (dial - rest + 100) % 100;
+                counterOf0PassingBy += (newDial > dial || newDial == 0) && dial != 0 ? 1 : 0;
             } else if (step[0].equals("R")) {
-                int value = Integer.parseInt(step[1]);
-                while ((dial + value) > 100) {
-                    System.out.println("Before passing by 0: dial = " + dial + ", value = " + value);
-                    value -= (100 - dial);
-                    dial = 0;
-                    counterOf0PassingBy++;
-                    System.out.println("After passing by 0: dial = " + dial + ", value = " + value);
-                }
+                newDial = (dial + rest) % 100;
+                counterOf0PassingBy += newDial < dial ? 1 : 0;
             }
+            dial = newDial;
             System.out.println("Counter of passing by 0: " + counterOf0PassingBy);
         }
 
