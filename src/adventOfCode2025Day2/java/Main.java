@@ -22,14 +22,20 @@ public class Main {
             return value >= min && value <= max;
         }
 
-        public List<Long> getInvalidID() {
+        /**
+         * Find invalid IDs in the range for part 1
+         * An invalid ID is defined as an ID with an even number of digits
+         * where the first half of the digits are the same as the second half
+         * @return
+         */
+        public List<Long> getInvalidIDPart1() {
             int minLength = Long.toString(min).length();
             int maxLength = Long.toString(max).length();
             List<Long> invalidIDs = new ArrayList<>();
             long sumOfInvalidIDs = 0;
 
             // If max has an even number of digits, it possibly contains an invalid ID
-            if (maxLength % 2 == 0) {
+            if (minLength % 2 == 0 || maxLength % 2 == 0) {
                 long minimum = min;
                 System.out.println("min : " + minimum + " | max : " + max);
 
@@ -62,11 +68,7 @@ public class Main {
                     testingId = Long.parseLong(halfMinStr.concat(halfMinStr));
                     System.out.println("testingId : " + testingId);
                 }
-            } else {
-                System.out.println("min : " + min + " | max : " + max);
-                System.out.println("No invalid IDs in range (odd) : " + this.toString());
             }
-
             return invalidIDs;
         }
 
@@ -103,7 +105,7 @@ public class Main {
 
         // Algorithm Part 1
         for (Range range : ranges) {
-            long somme = range.getInvalidID().stream().reduce(0L, Long::sum);
+            long somme = range.getInvalidIDPart1().stream().reduce(0L, Long::sum);
             System.out.println("--------- : " + somme);
             sumOfInvalidIDs += somme;
             System.out.println("----------- sumOfInvalidIDs : " + sumOfInvalidIDs);
