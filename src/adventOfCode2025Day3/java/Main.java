@@ -23,29 +23,44 @@ public class Main {
          *
          * @return
          */
-        public String getTotalJoltage() {
+        public String getTotalJoltage(int nbBatteriesNeeded) {
 
-            int battery1 = 0;
-            int battery2 = 0;
+            int[] batteriesUsed = new int[nbBatteriesNeeded];
 
-            for (int i = 0; i < batteries.size(); i++) {
-                int battery = batteries.get(i);
-                if (battery1 == 9 && battery2 == 9) {
-                    break;
-                } else {
-                    if (battery > battery1 && i < batteries.size() - 1) {
-                        battery1 = battery;
-                        battery2 = 0;
-                    } else if (battery > battery2) {
-                        battery2 = battery;
-                    }
-                }
+            System.out.println(batteries.toString());
+            int[] bestCombinaison = getBestBatteriesCombination(batteriesUsed, 0, 0);
+            System.out.println(" Best combinaison : " + Arrays.toString(bestCombinaison));
+
+            StringBuilder result = new StringBuilder();
+            for (int battery : bestCombinaison) {
+                result.append(Integer.toString(battery));
             }
-            System.out.println(batteries);
-            System.out.println("battery 1 : " + battery1
-                    +  " - battery 2 : " + battery2
-                    + " - Concat : " + Integer.toString(battery1).concat(Integer.toString(battery2)));
-            return Integer.toString(battery1).concat(Integer.toString(battery2));
+
+            return result.toString();
+        }
+
+        /**
+         * Recursive method to get the better batteries combination.
+         */
+        public int[] getBestBatteriesCombination(int[] batteriesUsed, int indexNextBattery, int indexNextPosition) {
+            if (indexNextBattery == batteriesUsed.length) {
+                return batteriesUsed;
+            } else {
+                int nextPos = indexNextPosition;
+                for (int i = indexNextPosition; i <= batteries.size() - batteriesUsed.length + indexNextBattery; i++) {
+                    System.out.println("batteriesSize : " + batteries.size() + " | batteriesUsed.length : " + batteriesUsed.length + " | indexNextBattery : " + indexNextBattery);
+                    System.out.println("range i : " + i + " to " + (batteries.size() - batteriesUsed.length + indexNextBattery));
+                    int battery = batteries.get(i);
+                    if (battery > batteriesUsed[indexNextBattery]) {
+                        System.out.println("Using battery " + battery + " (pos : " + i + ") for position " + indexNextBattery);
+                        batteriesUsed[indexNextBattery] = battery;
+                        nextPos = i + 1;
+                    }
+                    }
+
+                System.out.println(indexNextPosition);
+                return getBestBatteriesCombination(batteriesUsed, indexNextBattery + 1, nextPos);
+            }
         }
     }
 
@@ -67,16 +82,25 @@ public class Main {
                 .toList();
 
         // Vars
-        int totalJoltage = 0;
+        long totalJoltagePart1 = 0;
+        long totalJoltagePart2 = 0;
 
         for (Bank bank : banks) {
-            totalJoltage += Integer.parseInt(bank.getTotalJoltage());
+            totalJoltagePart1 += Long.parseLong(bank.getTotalJoltage(2));
+        }
+
+        for (Bank bank : banks) {
+            totalJoltagePart2 += Long.parseLong(bank.getTotalJoltage(12));
         }
 
         // Output
         PrintTools.printAnswer(3, 1,
                 "Lobby",
-                Integer.toString(totalJoltage));
+                Long.toString(totalJoltagePart1));
+
+        PrintTools.printAnswer(3, 1,
+                "Lobby",
+                Long.toString(totalJoltagePart2));
 
 
     }
