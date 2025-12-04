@@ -1,25 +1,22 @@
-package adventOfCodeDay1.java;
+package adventOfCode2025Day1.java;
 
 import tools.FileTools;
 import tools.PrintTools;
 
-import java.nio.file.Files;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 public class Main {
 
     /**
      * Main method for Day 1.
      *
-     * @param Args
+     * @param args
      */
-    public static void main(String[] Args) {
+    public static void main(String[] args) {
 
         // Get input value in ressources folder
-        String input = FileTools.readFile("src\\adventOfCodeDay1" +
+        String input = FileTools.readFile("src\\adventOfCode2025Day1" +
                 "\\ressources\\input");
         List<String[]> instructions = input.lines().map(s -> new String[]{
                 s.substring(0, 1),
