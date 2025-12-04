@@ -3,9 +3,7 @@ package adventOfCode2025Day2.java;
 import tools.FileTools;
 import tools.PrintTools;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class Main {
 
@@ -26,6 +24,7 @@ public class Main {
          * Find invalid IDs in the range for part 1
          * An invalid ID is defined as an ID with an even number of digits
          * where the first half of the digits are the same as the second half
+         *
          * @return
          */
         public List<Long> getInvalidIDPart1() {
@@ -72,6 +71,60 @@ public class Main {
             return invalidIDs;
         }
 
+        /**
+         * Find invalid IDs in the range for part 2
+         * An invalid ID is defined as an ID where it is composed by repeatable sequences
+         * of digits. The length of the sequence must be a divisor of the total length of the ID.
+         * For example, 1212 is invalid because it is composed of the sequence "12" repeated twice.
+         * 123123 is invalid because it is composed of the sequence "123" repeated twice.
+         * 123123123 is invalid because it is composed of the sequence "123" repeated three times.
+         * 1234 is valid because it cannot be composed of repeatable sequences.
+         * 1231234 is valid because it cannot be composed of repeatable sequences
+         *
+         * @return
+         */
+        public Set<Long> getInvalidIDPart2() {
+            Set<Long> invalidIDs = new HashSet<>();
+            int lastLength = Long.toString(min).length();
+            List<Integer> divisors = getDivisors(min);
+            Set<Long> potentialInvalids = new HashSet<>();
+            for (long id = min; id <= max; id++) {
+                if (Long.toString(id).length() > lastLength) {
+                    lastLength = Long.toString(id).length();
+                    divisors = getDivisors(id);
+                }
+                String idStr = Long.toString(id);
+
+                for (int divisor : divisors) {
+                    String sequence = idStr.substring(0, divisor);
+                    StringBuilder repeatedSequence = new StringBuilder();
+                    int repeatCount = idStr.length() / divisor;
+                    for (int i = 0; i < repeatCount; i++) {
+                        repeatedSequence.append(sequence);
+                    }
+                    potentialInvalids.add(Long.parseLong(repeatedSequence.toString()));
+                }
+            }
+            System.out.println("Potential : " + potentialInvalids);
+            for (long potentialInvalid : potentialInvalids) {
+                if (contains(potentialInvalid)) {
+                    invalidIDs.add(potentialInvalid);
+                }
+            }
+            return invalidIDs;
+        }
+
+        public List<Integer> getDivisors(long id) {
+            List<Integer> divisors = new ArrayList<>();
+            int idLength = Long.toString(id).length();
+            for (int i = 1; i <= idLength / 2; i++) {
+                if (idLength % i == 0) {
+                    divisors.add(i);
+                }
+            }
+            return divisors;
+        }
+
         @Override
         public String toString() {
             return "{" +
@@ -99,7 +152,8 @@ public class Main {
         }).toList();
 
         // vars
-        long sumOfInvalidIDs = 0;
+        long sumOfInvalidIDsPart1 = 0;
+        long sumOfInvalidIDsPart2 = 0;
 
         System.out.println("Ranges : " + ranges.toString());
 
@@ -107,14 +161,26 @@ public class Main {
         for (Range range : ranges) {
             long somme = range.getInvalidIDPart1().stream().reduce(0L, Long::sum);
             System.out.println("--------- : " + somme);
-            sumOfInvalidIDs += somme;
-            System.out.println("----------- sumOfInvalidIDs : " + sumOfInvalidIDs);
+            sumOfInvalidIDsPart1 += somme;
+            System.out.println("----------- sumOfInvalidIDs : " + sumOfInvalidIDsPart1);
+        }
+
+        // Algorithm Part 2
+        for (Range range : ranges) {
+            long somme = range.getInvalidIDPart2().stream().reduce(0L, Long::sum);
+            System.out.println("--------- : " + somme);
+            sumOfInvalidIDsPart2 += somme;
+            System.out.println("----------- sumOfInvalidIDs : " + sumOfInvalidIDsPart2);
         }
 
         // Output
         PrintTools.printAnswer(2, 1,
                 "Gift Shop",
-                Long.toString(sumOfInvalidIDs));
+                Long.toString(sumOfInvalidIDsPart1));
+
+        PrintTools.printAnswer(2, 2,
+                "Gift Shop",
+                Long.toString(sumOfInvalidIDsPart2));
 
 
     }
