@@ -110,12 +110,11 @@ public class Main {
                         .map(Case::new).toList())
                 .toList();
 
-        // Vars
+        // Vars + Algo
+        List<List<Case>> grid2 = new ArrayList<>(grid);
         int countOfRollsPart1 = 0;
         int countOfRollsPart2 = 0;
 
-
-        // Algo
         for (int x = 0; x < grid.size(); x++) {
             List<Case> line = grid.get(x);
             for (int y = 0; y < line.size(); y++) {
@@ -136,6 +135,32 @@ public class Main {
                         }
                     }
                 }
+            }
+        }
+
+        // Algo Part 1
+        countOfRollsPart1 = part1(grid);
+
+        // Algo Part 2
+        countOfRollsPart2 = part2(grid2, 0);
+
+        // Output
+        PrintTools.printAnswer(4, 1,
+                "Printing Department,",
+                Integer.toString(countOfRollsPart1));
+
+        PrintTools.printAnswer(4, 2,
+                "Printing Department ",
+                Integer.toString(countOfRollsPart2));
+    }
+
+    public static int part1(List<List<Case>> grid) {
+        int countOfRollsPart1 = 0;
+
+        for (int x = 0; x < grid.size(); x++) {
+            List<Case> line = grid.get(x);
+            for (int y = 0; y < line.size(); y++) {
+                Case c = line.get(y);
 
                 // If I have content and I have fewer than 4 neighbours with content
                 countOfRollsPart1 += c.hasContent() && c.countNeighboursWithContent() < 4
@@ -148,11 +173,40 @@ public class Main {
             System.out.println();
         }
 
+        return countOfRollsPart1;
+    }
 
+    public static int part2(List<List<Case>> grid, int countOfRollsPart2) {
 
-        // Output
-        PrintTools.printAnswer(4, 1,
-                "Printing Department,",
-                        Integer.toString(countOfRollsPart1));
+        System.out.print("\n--------------------------------------------------------------------------\n"
+                + "countOfRollsPart2: " + countOfRollsPart2
+                + "\n--------------------------------------------------------------------------\n");
+
+        int initialCount = countOfRollsPart2;
+
+        for (int x = 0; x < grid.size(); x++) {
+            List<Case> line = grid.get(x);
+            for (int y = 0; y < line.size(); y++) {
+                Case c = line.get(y);
+
+                // If I have content and I have fewer than 4 neighbours with content
+                if (c.hasContent() && c.countNeighboursWithContent() < 4) {
+                    countOfRollsPart2 += 1;
+                    // Print grid
+                    System.out.print((c.hasContent() && c.countNeighboursWithContent() < 4) ? "x" : c.getContent());
+                    // And remove content
+                    c.removeContent();
+                } else {
+                    System.out.print(c.getContent());
+                }
+            }
+            System.out.println();
+        }
+
+        if (initialCount != countOfRollsPart2) {
+            countOfRollsPart2 = part2(grid, countOfRollsPart2);
+        }
+
+        return countOfRollsPart2;
     }
 }
