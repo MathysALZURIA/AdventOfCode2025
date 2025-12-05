@@ -67,9 +67,9 @@ public class Main {
     /**
      * Main method for Day 3.
      *
-     * @param Args
+     * @param args
      */
-    public static void main(String[] Args) {
+    public static void main(String[] args) {
 
         // Get input value in ressources folder
         String input = FileTools.readFile("src\\adventOfCode2025Day3" +
