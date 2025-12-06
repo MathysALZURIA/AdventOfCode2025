@@ -56,7 +56,7 @@ public class Main {
                         batteriesUsed[indexNextBattery] = battery;
                         nextPos = i + 1;
                     }
-                    }
+                }
 
                 System.out.println(indexNextPosition);
                 return getBestBatteriesCombination(batteriesUsed, indexNextBattery + 1, nextPos);
