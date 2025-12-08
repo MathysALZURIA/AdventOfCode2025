@@ -17,7 +17,7 @@ public class Main {
 
         // Get input value in ressources folder
         String input = FileTools.readFile("src\\adventOfCode2025Day1" +
-                "\\ressources\\input");
+                "\\resources\\input");
         List<String[]> instructions = input.lines().map(s -> new String[]{
                 s.substring(0, 1),
                 s.substring(1)

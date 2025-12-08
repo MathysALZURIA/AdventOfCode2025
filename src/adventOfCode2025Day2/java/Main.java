@@ -143,7 +143,7 @@ public class Main {
 
         // Get input value in ressources folder
         String input = FileTools.readFile("src\\adventOfCode2025Day2" +
-                "\\ressources\\input");
+                "\\resources\\input");
         List<Range> ranges = Arrays.stream(input.split(",")).map(s -> {
             String[] parts = s.split("-");
             long min = Math.min(Long.parseLong(parts[0].strip()), Long.parseLong(parts[1].strip()));

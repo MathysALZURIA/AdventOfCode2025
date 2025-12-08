@@ -103,7 +103,7 @@ public class Main {
 
         // Get input value in ressources folder
         String input = FileTools.readFile("src\\adventOfCode2025Day4" +
-                "\\ressources\\input");
+                "\\resources\\input");
         List<List<Case>> grid = input.lines()
                 .map(s -> Arrays.stream(s.split(""))
                         .map(Case::new).toList())

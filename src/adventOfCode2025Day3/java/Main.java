@@ -73,7 +73,7 @@ public class Main {
 
         // Get input value in ressources folder
         String input = FileTools.readFile("src\\adventOfCode2025Day3" +
-                "\\ressources\\input");
+                "\\resources\\input");
         List<Bank> banks = input.lines()
                 .map(s -> new Bank(
                         Arrays.stream(s.split(""))

@@ -78,7 +78,7 @@ public class Main {
 
         // Get input value in ressources folder
         String input = FileTools.readFile("src\\adventOfCode2025Day6" +
-                "\\ressources\\input");
+                "\\resources\\input");
         List<String> inputLines = input.lines().toList();
 
         // Separate digit lines and operation line

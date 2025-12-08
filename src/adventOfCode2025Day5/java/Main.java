@@ -52,7 +52,7 @@ public class Main {
 
         // Get input value in ressources folder
         String input = FileTools.readFile("src\\adventOfCode2025Day5" +
-                "\\ressources\\input");
+                "\\resources\\input");
 
         String[] ranges_ids = input.split("\n\n");
         List<Range> ranges = new ArrayList<Range>(ranges_ids[0].lines()
